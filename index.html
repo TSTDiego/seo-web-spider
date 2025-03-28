@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO Spider Web</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body { padding: 2rem; background-color: #f8f9fa; }
+    .container { max-width: 900px; }
+    .result-table { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">🕷️ SEO Spider Web</h1>
+
+    <form id="spider-form">
+      <div class="mb-3">
+        <label for="startUrl" class="form-label">URL inicial:</label>
+        <input type="url" class="form-control" id="startUrl" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="excludeDirs" class="form-label">Excluir directorios (separados por coma):</label>
+        <input type="text" class="form-control" id="excludeDirs" placeholder="/blog,/admin" />
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="depth" class="form-label">Profundidad máxima:</label>
+          <input type="number" class="form-control" id="depth" min="1" max="10" value="3" />
+        </div>
+        <div class="col">
+          <label for="maxUrls" class="form-label">Máximo de URLs:</label>
+          <input type="number" class="form-control" id="maxUrls" min="10" max="10000" value="1000" />
+        </div>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="subdomains" />
+        <label class="form-check-label" for="subdomains">Incluir subdominios</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="params" checked />
+        <label class="form-check-label" for="params">Incluir URLs con parámetros</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="fragments" />
+        <label class="form-check-label" for="fragments">Incluir fragmentos (#)</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-3">Rastrear</button>
+    </form>
+
+    <div id="results" class="result-table d-none">
+      <h3 class="mt-5">Resultados</h3>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>HTTP</th>
+            <th>Redirección</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>H1</th>
+            <th>Hreflang</th>
+            <th>Duplicada con</th>
+            <th># Enlaces rotos</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("spider-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const dummyData = [{
+        url: "https://ejemplo.com",
+        http: "200",
+        redir: "",
+        title: "Inicio",
+        description: "Bienvenido a nuestro sitio web",
+        h1: "Página principal",
+        hreflang: "es:https://ejemplo.com",
+        duplicate: "",
+        brokenLinks: 0,
+      }];
+      const tbody = document.getElementById("resultsBody");
+      tbody.innerHTML = "";
+      dummyData.forEach((item) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.url}</td>
+          <td>${item.http}</td>
+          <td>${item.redir}</td>
+          <td>${item.title}</td>
+          <td>${item.description}</td>
+          <td>${item.h1}</td>
+          <td>${item.hreflang}</td>
+          <td>${item.duplicate}</td>
+          <td>${item.brokenLinks}</td>
+        `;
+        tbody.appendChild(row);
+      });
+      document.getElementById("results").classList.remove("d-none");
+    });
+  </script>
+</body>
+</html>
